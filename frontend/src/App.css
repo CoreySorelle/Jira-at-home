@@ -2,28 +2,44 @@
   text-align: center;
 }
 
+.drop-area {
+  height: auto;
+  min-height: 600px;
+}
+
 .drop-area:nth-child(odd) {
   background-color: white;
 }
 
 .drop-area:nth-child(even) {
-  background-color: #f3f3f3; /* Light gray */
+  background-color: #bde6f7; /* Light gray */
 }
 
 
 .task-div {
+  margin-top: 4px;
+  margin-bottom: 4px; 
   margin-left: 12%;
   margin-right: 12%;
   width: 76%;
   background-color: beige;
-  border-radius: 2px;
+  border: 2px solid black; 
+  border-radius: 10px; 
+ 
+  
 }
 
 .grid-container {
-  padding-left: 10;
-  padding-right: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
+  border: 2px solid black;
+  
+}
+
+.title-div {
+  margin: 15px;
 }
 
 .App-logo {

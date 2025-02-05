@@ -64,7 +64,7 @@ const DroppableArea = ({ id, title, items, onDrop }) => {
               />
             ))
           ) : (
-            <div className="text-gray-400 text-center py-4">
+            <div className="task-div">
               Drag tasks here
             </div>
           )}
@@ -111,10 +111,10 @@ const DragDropApp = () => {
   return (
     <>
 
-    <div>
+    <div className="title-div">
         <p>Me: Mom, can we get Jira?</p>
         <p>Mom: we have Jira at home</p>
-    <h1 className="text-2xl font-bold text-center mb-4">Jira At Home</h1>
+    <h1 className="app-header">Jira At Home</h1>
 
     <CreateTask setContainers={setContainers} />
     </div>
