@@ -8,9 +8,9 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT || 3001;
 
-app.use(express.json()); // Middleware to parse JSON requests
+app.use(express.json()); 
 
-// Root endpoint
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });

@@ -11,8 +11,7 @@ const user_route_1 = __importDefault(require("./routes/user.route"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3001;
-app.use(express_1.default.json()); // Middleware to parse JSON requests
-// Root endpoint
+app.use(express_1.default.json());
 app.get("/", (req, res) => {
     res.send("Express + TypeScript Server");
 });

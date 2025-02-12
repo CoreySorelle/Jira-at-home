@@ -1,11 +1,9 @@
-import express, { Router, Request, Response } from "express";
+import express from "express";
+import { sayHello } from "../controllers/user.controller";
 
-const router: Router = express.Router();
+const router = express.Router();
 
-// Example route: Get all tasks
-router.get("/", (req: Request, res: Response) => {
-    res.send("in users");
-});
+router.get("/", sayHello)
 
-// Export the router so it can be used in `index.ts`
+
 export default router;

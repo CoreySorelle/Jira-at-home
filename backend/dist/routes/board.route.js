@@ -4,10 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const board_controller_1 = require("../controllers/board.controller");
 const router = express_1.default.Router();
-// Example route: Get all tasks
-router.get("/", (req, res) => {
-    res.send("in boards");
-});
-// Export the router so it can be used in `index.ts`
+router.get("/", board_controller_1.sayHello);
 exports.default = router;

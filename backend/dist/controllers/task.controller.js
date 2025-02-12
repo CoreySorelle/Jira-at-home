@@ -14,7 +14,7 @@ exports.updateTaskColumn = exports.createTask = exports.sayHello = exports.getAl
 // Get all tasks
 const getAllTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // Database logic to fetch all tasks goes here
+        // Database logic 
         res.json({ message: "Fetching all tasks" });
     }
     catch (error) {
@@ -24,7 +24,7 @@ const getAllTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getAllTasks = getAllTasks;
 const sayHello = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        res.json({ message: "helloworld" }); // Responds with "helloworld"
+        res.json({ message: "helloworld from task" });
     }
     catch (error) {
         res.status(500).json({ message: "Server error" });
@@ -35,7 +35,7 @@ exports.sayHello = sayHello;
 const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id, name, dueDate, createdBy, assignedTo, column } = req.body;
-        // Database logic to create a new task goes here
+        // Database logic 
         res.status(201).json({ message: "Task created successfully" });
     }
     catch (error) {
