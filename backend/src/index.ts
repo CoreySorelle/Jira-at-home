@@ -1,7 +1,8 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
-import taskRoutes from "./routes/task.route"; // Import the task router
-
+import taskRoutes from "./routes/task.route"; 
+import boardRoutes from "./routes/board.route";
+import userRoutes from "./routes/user.route";
 dotenv.config();
 
 const app: Express = express();
@@ -15,7 +16,9 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // Use the task routes under `/tasks`
-app.use("/tasks", taskRoutes);
+app.use("/task", taskRoutes);
+app.use("/user", userRoutes);
+app.use("/board", boardRoutes);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);

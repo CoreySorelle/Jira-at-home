@@ -1,16 +1,11 @@
-import express, { Router, Request, Response } from "express";
+import express from "express";
+import { getAllTasks, createTask, updateTaskColumn, sayHello } from "../controllers/task.controller";
 
-const router: Router = express.Router();
+const router = express.Router();
 
-// Example route: Get all tasks
-router.get("/", (req: Request, res: Response) => {
-    res.send("in tasks");
-});
+router.get("/", sayHello)
+router.get("/get-tasks", getAllTasks);
+router.post("/create-task", createTask);
+router.post("/update-task", updateTaskColumn);
 
-// Example route: Create a new task
-router.post("/", (req: Request, res: Response) => {
-  res.json({ message: "Creating a new task" });
-});
-
-// Export the router so it can be used in `index.ts`
 export default router;
