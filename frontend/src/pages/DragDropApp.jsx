@@ -41,9 +41,6 @@ const DroppableArea = ({ id, title, items, onDrop }) => {
     }));
   
     return (
-      <div className="App">
-
-      
       <div className="drop-area">
         {/* Lane Title */}
         <h2 className="text-lg font-bold text-center mb-2">{title}</h2>
@@ -74,7 +71,7 @@ const DroppableArea = ({ id, title, items, onDrop }) => {
           )}
         </div>
       </div>
-      </div>
+      
     );
   };
   

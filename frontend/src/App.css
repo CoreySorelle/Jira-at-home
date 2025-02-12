@@ -9,6 +9,7 @@ form {
 .drop-area {
   height: auto;
   min-height: 600px;
+  text-align: center;
 }
 
 .drop-area:nth-child(odd) {
@@ -16,8 +17,9 @@ form {
 }
 
 .drop-area:nth-child(even) {
-  background-color: #bde6f7; /* Light gray */
+  background-color: #bde6f7;
 }
+
 
 
 .task-div {
