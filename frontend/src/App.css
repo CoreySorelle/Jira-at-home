@@ -1,3 +1,7 @@
+form {
+  text-align: center;
+}
+
 .App {
   text-align: center;
 }
@@ -17,6 +21,7 @@
 
 
 .task-div {
+  text-align: center;
   margin-top: 4px;
   margin-bottom: 4px; 
   margin-left: 12%;
@@ -25,8 +30,6 @@
   background-color: beige;
   border: 2px solid black; 
   border-radius: 10px; 
- 
-  
 }
 
 .grid-container {
@@ -39,6 +42,7 @@
 }
 
 .title-div {
+  text-align: center;
   margin: 15px;
 }
 
@@ -75,4 +79,28 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+nav li {
+  float: left;
+}
+
+nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+nav li a:hover {
+  background-color: #111;
 }

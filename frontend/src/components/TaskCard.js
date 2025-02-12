@@ -1,3 +1,5 @@
+import "../App.css";
+
 function TaskCard(props) {
     return (
       <div className="task-div">

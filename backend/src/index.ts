@@ -15,7 +15,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-// Use the task routes under `/tasks`
+// routes
 app.use("/task", taskRoutes);
 app.use("/user", userRoutes);
 app.use("/board", boardRoutes);

@@ -16,7 +16,7 @@ app.use(express_1.default.json()); // Middleware to parse JSON requests
 app.get("/", (req, res) => {
     res.send("Express + TypeScript Server");
 });
-// Use the task routes under `/tasks`
+// routes
 app.use("/task", task_route_1.default);
 app.use("/user", user_route_1.default);
 app.use("/board", board_route_1.default);

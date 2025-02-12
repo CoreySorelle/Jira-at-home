@@ -1,3 +1,5 @@
+import "../App.css";
+
 function CreateTask({ setContainers }) {
     function handleClick(event) {
       event.preventDefault(); // Prevent form from reloading page

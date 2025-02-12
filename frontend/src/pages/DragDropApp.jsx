@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import TaskCard from "./TaskCard";
-import CreateTask from "./CreateTask";
+import TaskCard from "../components/TaskCard";
+import CreateTask from "../components/CreateTask";
+import "../App.css";
 
 const ItemType = {
   ITEM: "ITEM",
@@ -40,6 +41,9 @@ const DroppableArea = ({ id, title, items, onDrop }) => {
     }));
   
     return (
+      <div className="App">
+
+      
       <div className="drop-area">
         {/* Lane Title */}
         <h2 className="text-lg font-bold text-center mb-2">{title}</h2>
@@ -69,6 +73,7 @@ const DroppableArea = ({ id, title, items, onDrop }) => {
             </div>
           )}
         </div>
+      </div>
       </div>
     );
   };
@@ -110,14 +115,10 @@ const DragDropApp = () => {
 
   return (
     <>
-
-    <div className="title-div">
-        <p>Me: Mom, can we get Jira?</p>
-        <p>Mom: we have Jira at home</p>
-    <h1 className="app-header">Jira At Home</h1>
-
-    <CreateTask setContainers={setContainers} />
+    <div>
+      <CreateTask setContainers={setContainers} />
     </div>
+    
 
     <DndProvider backend={HTML5Backend}>
       <div className="grid-container">
