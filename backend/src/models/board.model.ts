@@ -3,20 +3,24 @@
 
   
   class Board {
-    id: string;
-    name: string;
-    createdBy: User;
-    tasks: Task[];
+        id: string;
+        name: string;
+        createdBy: User;
+        tasks: Task[];
   
     constructor(id: string, name: string, createdBy: User) {
-      this.id = id;
-      this.name = name;
-      this.createdBy = createdBy;
-      this.tasks = [];
+        this.id = id;
+        this.name = name;
+        this.createdBy = createdBy;
+        this.tasks = [];
     }
   
     addTask(task: Task) {
-      this.tasks.push(task);
+        this.tasks.push(task);
+    
+        for (const task of this.tasks) {
+            console.log(task.toString());
+        }
     }
   } export default Board;
   

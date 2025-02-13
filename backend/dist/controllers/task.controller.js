@@ -8,9 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateTaskColumn = exports.createTask = exports.sayHello = exports.getAllTasks = void 0;
-//import { Task } from "../models/task.model";
+const task_model_1 = __importDefault(require("../models/task.model")); // ✅ Correct
 // Get all tasks
 const getAllTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -24,7 +27,7 @@ const getAllTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getAllTasks = getAllTasks;
 const sayHello = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        res.json({ message: "helloworld from task" });
+        res.json({ message: "helloworld from" });
     }
     catch (error) {
         res.status(500).json({ message: "Server error" });
@@ -34,11 +37,21 @@ exports.sayHello = sayHello;
 // Create a new task
 const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id, name, dueDate, createdBy, assignedTo, column } = req.body;
-        // Database logic 
-        res.status(201).json({ message: "Task created successfully" });
+        const { id, name, date, column } = req.body;
+        // Ensure date is converted to a Date object
+        const dueDate = new Date(date);
+        // Validate the date
+        if (isNaN(dueDate.getTime())) {
+            return res.status(400).json({ message: "Invalid date format" });
+        }
+        // Corrected Task object instantiation
+        var task = new task_model_1.default(id, name, dueDate, column);
+        console.log(task.toString());
+        // Database logic here
+        res.status(201).json({ message: "Task created successfully", task });
     }
     catch (error) {
+        console.error("Error creating task:", error);
         res.status(500).json({ message: "Server error" });
     }
 });

@@ -9,13 +9,15 @@
   "author": "Corey Sorelle",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "nodemon": "^3.1.9",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
-    "@types/express": "^5.0.0",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
     "@types/node": "^22.13.1",
     "typescript": "^5.7.3"
   }

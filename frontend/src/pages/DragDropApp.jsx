@@ -56,13 +56,12 @@ const DroppableArea = ({ id, title, items, onDrop }) => {
           {items.length > 0 ? (
             items.map((item) => (
               <DraggableItem
-                key={item.id}
                 id={item.id}
-                text={item.text}
-                taskName={item.taskName}
-                taskAuthor={item.taskAuthor}
-                taskAssigned={item.taskAssigned}
+                taskName={item.name} // Fix name mismatch
+                taskAuthor={item.createdBy} // Fix author mismatch
+                taskAssigned={item.assignedTo} // Fix assignee mismatch
               />
+
             ))
           ) : (
             <div className="task-div">

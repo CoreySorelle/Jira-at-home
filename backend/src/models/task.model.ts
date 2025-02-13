@@ -4,17 +4,21 @@ class Task {
     id: string;
     name: string;
     dueDate: Date;
-    createdBy: User;
-    assignedTo: User;
     column: string;
   
-    constructor(id: string, name: string, dueDate: Date, createdBy: User, assignedTo: User, column: string) {
+    constructor(id: string, name: string, dueDate: Date, column: string) {
       this.id = id;
       this.name = name;
       this.dueDate = dueDate;
       this.column = column;
-      this.createdBy = createdBy;
-      this.assignedTo = assignedTo;
-      
     }
-  } export default Task;
+
+    toString() {
+        return `Task ID: ${this.id}
+Task Name: ${this.name}
+Due Date: ${this.dueDate.toISOString()}
+Column: ${this.column}`;
+    }
+}
+
+export default Task;

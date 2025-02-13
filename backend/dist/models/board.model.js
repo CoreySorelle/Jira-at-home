@@ -9,6 +9,9 @@ class Board {
     }
     addTask(task) {
         this.tasks.push(task);
+        for (const task of this.tasks) {
+            console.log(task.toString());
+        }
     }
 }
 exports.default = Board;

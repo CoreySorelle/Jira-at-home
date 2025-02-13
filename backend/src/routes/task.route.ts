@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Router } from "express";
 import { getAllTasks, createTask, updateTaskColumn, sayHello } from "../controllers/task.controller";
 
 const router = express.Router();
