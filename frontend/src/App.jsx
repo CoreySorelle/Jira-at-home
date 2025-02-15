@@ -7,6 +7,7 @@ import Blogs from "./pages/Blogs";
 import Contact from "./pages/Contact";
 import NoPage from "./pages/NoPage";
 import DragDropApp from "./pages/DragDropApp";
+import Login from "./pages/Login"
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="blogs" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
           <Route path="board" element={<DragDropApp/>}></Route>
+          <Route path="login" element={<Login/>}></Route>
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>
