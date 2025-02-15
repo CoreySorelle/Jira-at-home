@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 const SignUp = () => {
+  const navigate = useNavigate(); // Move useNavigate inside the component
+
   const [formData, setFormData] = useState({
     fname: "",
     lname: "",
@@ -34,6 +37,7 @@ const SignUp = () => {
       }
       const data = await response.json();
       console.log("Account created successfully:", data);
+      navigate("/login"); // Ensure this runs after successful response
     } catch (error) {
       console.error("Submission error:", error);
     }

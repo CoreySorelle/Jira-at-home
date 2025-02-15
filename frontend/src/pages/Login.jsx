@@ -27,8 +27,9 @@ function Login() {
 					{ headers }
 				)
 				.then((response) => {
+                    //console.log("Login Response:", response.data);
 					sessionStorage.setItem("isLoggedIn", true);
-					sessionStorage.setItem("userToken", response.data.token);
+					sessionStorage.setItem("token", response.data.token);
 					sessionStorage.setItem("justLoggedIn", true);
 					navigate("/");
 				})
@@ -56,7 +57,7 @@ function Login() {
 						value={password}
 						placeholder="Password"
 					/>
-					<button onClick={login}>GO</button>
+					<br/><button onClick={login}>Login</button>
 				</form>
 			</div>
 		</>
