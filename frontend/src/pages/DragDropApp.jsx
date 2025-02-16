@@ -56,12 +56,12 @@ const DroppableArea = ({ id, title, items, onDrop }) => {
           {items.length > 0 ? (
             items.map((item) => (
               <DraggableItem
+                key={item.id} // ✅ Add key prop
                 id={item.id}
-                taskName={item.name} // Fix name mismatch
-                taskAuthor={item.createdBy} // Fix author mismatch
-                taskAssigned={item.assignedTo} // Fix assignee mismatch
+                taskName={item.name} 
+                taskAuthor={item.createdBy} 
+                taskAssigned={item.assignedTo} 
               />
-
             ))
           ) : (
             <div className="task-div">
@@ -88,26 +88,38 @@ const DragDropApp = () => {
     setContainers((prevContainers) => {
       let movedItem = null;
       const newContainers = { ...prevContainers };
-
-      // Remove item from its current container
+  
+      // Check if the item is already in the target container (prevents unnecessary state updates)
+      if (newContainers[targetId].some((item) => item.id === itemId)) {
+        console.warn(`Item ${itemId} is already in ${targetId}. Skipping redundant drop.`);
+        return prevContainers;  // No state update needed
+      }
+  
+      // Remove item from its previous container
       Object.keys(newContainers).forEach((key) => {
         newContainers[key] = newContainers[key].filter((item) => {
           if (item.id === itemId) {
             movedItem = item;
-            return false;
+            return false; // Remove from old container
           }
           return true;
         });
       });
-
-      // Add item to the target container
+  
+      // Add to new container
       if (movedItem) {
-        newContainers[targetId] = [...newContainers[targetId], movedItem];
+        newContainers[targetId].push(movedItem);
+        //console.log(`Moved item: ${movedItem.id} to ${targetId}`);
+      } else {
+        console.warn(`Item ${itemId} not found in any container.`);
       }
-
-      return { ...newContainers };
+  
+      //console.log("Updated Containers:", newContainers);
+      return newContainers;
     });
   };
+  
+  
 
   return (
     <>

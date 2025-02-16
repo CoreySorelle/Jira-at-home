@@ -20,13 +20,15 @@ function CreateTask({ setContainers }) {
 
     // Create task object
     const newTask = {
-      id: Date.now().toString(), // Unique ID
+      id: crypto.randomUUID(), // Unique ID
       name,
       date: date,
       createdBy: author,
       assignedTo: assignee,
       column: "To Do",
     };
+
+    console.log("New Task Created:", newTask);
 
     setLoading(true);
     try {
