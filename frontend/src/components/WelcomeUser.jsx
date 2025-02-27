@@ -6,14 +6,15 @@ const WelcomeUser = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
+      const token = sessionStorage.getItem("token");
+      console.log("Token:", token);  // Log token to ensure it's correct
+
+      if (!token) {
+        setError("Unauthorized: No token found.");
+        return;
+      }
+
       try {
-        const token = sessionStorage.getItem("token");
-
-        if (!token) {
-          setError("Unauthorized: No token found.");
-          return;
-        }
-
         const response = await fetch("http://localhost:3001/user/get-user", {
           method: "GET",
           headers: {
@@ -22,13 +23,21 @@ const WelcomeUser = () => {
           },
         });
 
+        console.log("API response:", response);  // Log API response
+
         if (!response.ok) {
           throw new Error("Failed to fetch user");
         }
 
         const data = await response.json();
-        console.log("welcome data: " + data);
-        setUser({ fname: data.fname, lname: data.lname });
+        console.log("User data:", data);  // Log user data from the response
+
+        if (!data) {
+          setError("User data not found in the response.");
+          return;
+        }
+
+        setUser(data);  // Correctly set user from `data.user`
       } catch (error) {
         setError("Error fetching user data.");
         console.error(error);
@@ -36,7 +45,7 @@ const WelcomeUser = () => {
     };
 
     fetchUser();
-  }, []);
+  }, []);  // Empty dependency array ensures the effect runs only once
 
   if (error) {
     return <p className="text-red-500">{error}</p>;

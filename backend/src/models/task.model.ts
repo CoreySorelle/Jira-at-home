@@ -13,12 +13,6 @@ class Task {
       this.column = column;
     }
 
-    toString() {
-        return `Task ID: ${this.id}
-Task Name: ${this.name}
-Due Date: ${this.dueDate.toISOString()}
-Column: ${this.column}`;
-    }
 }
 
 export default Task;
