@@ -27,8 +27,6 @@ form {
   background-color: #bde6f7;
 }
 
-
-
 .task-div {
   text-align: center;
   margin-top: 4px;
@@ -146,4 +144,55 @@ button {
   color: white;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.nav-main {
+  display: flex;
+  justify-content: space-between;
+  background: #333;
+  padding: 10px;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.nav-right {
+  margin-left: auto;
+}
+
+.dropdown-menu {
+  display: block;
+  position: absolute;
+  background: #444;
+  list-style: none;
+  padding: 10px;
+  margin-top: 5px;
+}
+
+.dropdown-menu li {
+  padding: 5px;
+}
+
+.dropdown-menu li a {
+  color: white;
+  text-decoration: none;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.nav-logout-container {
+  position: absolute;
+  right: 10px;
+  width: auto;
+}
+
+.nav-main ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
 }
