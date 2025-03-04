@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Task {
-    constructor(id, name, dueDate, column) {
+    constructor(id, board_id, name, createdDate, column) {
         this.id = id;
+        this.board_id = board_id;
         this.name = name;
-        this.dueDate = dueDate;
+        this.createdDate = createdDate;
         this.column = column;
     }
 }

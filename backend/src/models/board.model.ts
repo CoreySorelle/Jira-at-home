@@ -6,12 +6,14 @@
         id: string;
         name: string;
         createdBy: User;
+        createdDate: Date;
         tasks: Task[];
   
-    constructor(id: string, name: string, createdBy: User) {
+    constructor(id: string, name: string, createdBy: User, createdDate: Date) {
         this.id = id;
         this.name = name;
         this.createdBy = createdBy;
+        this.createdDate = createdDate;
         this.tasks = [];
     }
   

@@ -96,6 +96,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     if (result) {
                         let token = jsonwebtoken_1.default.sign({
                             email: user.email,
+                            id: user.id
                         }, SECRET_KEY);
                         console.log("logged in");
                         res.status(200).send({

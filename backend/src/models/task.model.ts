@@ -1,15 +1,18 @@
-import User from "./user.model";
+import Board from "./board.model";
 
 class Task {
     id: string;
+    board_id: string;
     name: string;
-    dueDate: Date;
+    createdDate: Date;
     column: string;
+    
   
-    constructor(id: string, name: string, dueDate: Date, column: string) {
+    constructor(id: string, board_id: string, name: string, createdDate: Date, column: string) {
       this.id = id;
+      this.board_id = board_id;
       this.name = name;
-      this.dueDate = dueDate;
+      this.createdDate = createdDate;
       this.column = column;
     }
 

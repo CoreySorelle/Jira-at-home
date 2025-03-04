@@ -6,5 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const board_controller_1 = require("../controllers/board.controller");
 const router = express_1.default.Router();
-router.get("/", board_controller_1.sayHello);
+router.get("/", board_controller_1.getBoard);
+router.post("/", board_controller_1.postBoard);
+router.get("/tasks", board_controller_1.getTasks);
 exports.default = router;

@@ -22,7 +22,7 @@ export const sayHello = async (req: Request, res: Response) => {
 // Create a new task
 export const createTask = async (req: Request, res: Response) => {
     try {
-      const { id, name, date, column } = req.body;
+      const { id, board_id, name, date, column } = req.body;
   
       // Ensure date is converted to a Date object
       const dueDate = new Date(date);
@@ -33,7 +33,7 @@ export const createTask = async (req: Request, res: Response) => {
       }
   
       // Corrected Task object instantiation
-      var task = new Task(id, name, dueDate, column);
+      var task = new Task(id, board_id, name, dueDate, column);
   
       console.log(task.toString());
   

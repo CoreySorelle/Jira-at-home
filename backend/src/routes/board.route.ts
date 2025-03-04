@@ -1,9 +1,11 @@
 import express from "express";
-import { sayHello } from "../controllers/board.controller";
+import { getBoard, getTasks, postBoard, sayHello } from "../controllers/board.controller";
 
 const router = express.Router();
 
-router.get("/", sayHello)
+router.get("/", getBoard);
+router.post("/", postBoard);
+router.get("/tasks", getTasks);
 
 
 export default router;

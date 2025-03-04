@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateTaskColumn = exports.createTask = exports.sayHello = exports.getAllTasks = void 0;
-const task_model_1 = __importDefault(require("../models/task.model")); // ✅ Correct
+const task_model_1 = __importDefault(require("../models/task.model"));
 // Get all tasks
 const getAllTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -37,7 +37,7 @@ exports.sayHello = sayHello;
 // Create a new task
 const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id, name, date, column } = req.body;
+        const { id, board_id, name, date, column } = req.body;
         // Ensure date is converted to a Date object
         const dueDate = new Date(date);
         // Validate the date
@@ -45,7 +45,7 @@ const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             return res.status(400).json({ message: "Invalid date format" });
         }
         // Corrected Task object instantiation
-        var task = new task_model_1.default(id, name, dueDate, column);
+        var task = new task_model_1.default(id, board_id, name, dueDate, column);
         console.log(task.toString());
         // Database logic here
         res.status(201).json({ message: "Task created successfully", task });
