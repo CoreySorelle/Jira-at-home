@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Board {
-    constructor(id, name, createdBy, createdDate) {
+    constructor(id, name, desc, createdBy, createdDate) {
         this.id = id;
         this.name = name;
+        this.description = desc;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
         this.tasks = [];

@@ -5,13 +5,15 @@
   class Board {
         id: string;
         name: string;
+        description: string;
         createdBy: User;
-        createdDate: Date;
+        createdDate: string;
         tasks: Task[];
   
-    constructor(id: string, name: string, createdBy: User, createdDate: Date) {
+    constructor(id: string, name: string, desc: string, createdBy: User, createdDate: string) {
         this.id = id;
         this.name = name;
+        this.description = desc
         this.createdBy = createdBy;
         this.createdDate = createdDate;
         this.tasks = [];

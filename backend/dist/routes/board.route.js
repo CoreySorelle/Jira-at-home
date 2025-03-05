@@ -9,4 +9,5 @@ const router = express_1.default.Router();
 router.get("/", board_controller_1.getBoard);
 router.post("/", board_controller_1.postBoard);
 router.get("/tasks", board_controller_1.getTasks);
+router.get("/boards-by-user", board_controller_1.getBoardsByUser);
 exports.default = router;
