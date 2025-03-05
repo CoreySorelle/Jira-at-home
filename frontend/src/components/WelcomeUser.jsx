@@ -56,8 +56,8 @@ const WelcomeUser = () => {
   }
 
   return (
-    <div className="p-4 bg-gray-100 border rounded-md">
-      <h1 className="text-xl font-semibold">Welcome, {user.fname} {user.lname}!</h1>
+    <div className="title-div">
+      <h1>Welcome, {user.fname} {user.lname}!</h1>
     </div>
   );
 };
