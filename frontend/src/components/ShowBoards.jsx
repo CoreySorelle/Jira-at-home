@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import "../App.css";
+import { useNavigate } from "react-router-dom";
 
 const ShowBoards = () => {
   const [boards, setBoards] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBoards = async () => {
@@ -49,6 +50,10 @@ const ShowBoards = () => {
     fetchBoards();
   }, []);
 
+  const handleBoardClick = (board) => {
+    navigate("/board", { state: { board } }); // Navigate to board-details page and pass board as state
+  };
+
   if (error) {
     return <p className="text-red-500">{error}</p>;
   }
@@ -59,23 +64,27 @@ const ShowBoards = () => {
 
   return (
     <div className="App">
-      <h1 className="text-2xl font-semibold mb-4">Your Boards</h1>
-      <table className="min-w-full bg-white border border-gray-300">
+      <h1>Your Boards</h1>
+      <table>
         <thead>
           <tr>
-            <th className="border px-4 py-2">Board ID</th>
-            <th className="border px-4 py-2">Name</th>
-            <th className="border px-4 py-2">Description</th>
-            <th className="border px-4 py-2">Created At</th>
+            <th>Board ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Created At</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {boards.map((board) => (
-            <tr key={board.id} className="hover:bg-gray-100">
-              <td className="border px-4 py-2">{board.id}</td>
-              <td className="border px-4 py-2">{board.name}</td>
-              <td className="border px-4 py-2">{board.description}</td>
-              <td className="border px-4 py-2">{board.createdDate}</td>
+            <tr key={board.id}>
+              <td>{board.id}</td>
+              <td>{board.name}</td>
+              <td>{board.description}</td>
+              <td>{board.createdDate}</td>
+              <td>
+                <button onClick={() => handleBoardClick(board)}>View Board</button>
+              </td>
             </tr>
           ))}
         </tbody>

@@ -30,9 +30,6 @@ const Layout = () => {
             </li>
           ) : (
             <>
-              <li>
-                <Link to="/board">Board</Link>
-              </li>
               <li className="nav-logout-container">
                 <button onClick={handleLogout} className="nav-logout-btn">Logout</button>
               </li>

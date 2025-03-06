@@ -1,5 +1,14 @@
 import { Request, Response } from "express";
 import Task from "../models/task.model";
+import { Pool } from "pg";
+
+const SECRET_KEY =
+  "0fb5f53f4d7ae5114979d94d01ddf11bf7e11d30dadf025732642995194fdf5fa0e62d5f726de0315e09c780319f98e512dc3c3a6c0ea8c847e7f1e76885bcd0";
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.PGSSLMODE === "disable" ? false : undefined, // Only set SSL if not disabled
+});
 
 // Get all tasks
 export const getAllTasks = async (req: Request, res: Response) => {
@@ -22,24 +31,26 @@ export const sayHello = async (req: Request, res: Response) => {
 // Create a new task
 export const createTask = async (req: Request, res: Response) => {
     try {
-      const { id, board_id, name, date, column } = req.body;
+      const { board_id, name, column } = req.body;
   
-      // Ensure date is converted to a Date object
-      const dueDate = new Date(date);
-  
-      // Validate the date
-      if (isNaN(dueDate.getTime())) {
-        return res.status(400).json({ message: "Invalid date format" });
-      }
-  
-      // Corrected Task object instantiation
-      var task = new Task(id, board_id, name, dueDate, column);
-  
-      console.log(task.toString());
-  
+
       // Database logic here
+      const queryResult = await pool.query(
+        `INSERT INTO Tasks (board_id, title, status) 
+         VALUES ($1, $2, $3) 
+         RETURNING *`,
+        [
+          board_id,
+          name,
+          column
+        ]
+    );
   
-      res.status(201).json({ message: "Task created successfully", task });
+    res.status(201).json({
+      message: "Task created successfully",
+      task: queryResult.rows[0], 
+    });
+
     } catch (error) {
       console.error("Error creating task:", error);
       res.status(500).json({ message: "Server error" });

@@ -1,19 +1,25 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+
 import TaskCard from "../components/TaskCard";
 import CreateTask from "../components/CreateTask";
+import BoardCard from "../components/BoardCard";
+
 import "../App.css";
 
 const ItemType = {
   ITEM: "ITEM",
 };
 
+
+
 // Draggable Item Component
-const DraggableItem = ({ id, text, taskName, taskAuthor, taskAssigned }) => {
+const DraggableItem = ({ id, text, taskName, created_at}) => {//if you want to add details to tasks, edit this
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemType.ITEM,
-    item: { id, text, taskName, taskAuthor, taskAssigned },
+    item: { id, text, taskName, created_at }, //if you want to add details to tasks, edit this
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -22,10 +28,9 @@ const DraggableItem = ({ id, text, taskName, taskAuthor, taskAssigned }) => {
   return (
     <div
       ref={drag}
-      className="p-4 bg-blue-500 text-white rounded-lg cursor-grab shadow-md"
       style={{ opacity: isDragging ? 0.5 : 1 }}
     >
-      <TaskCard taskName={taskName} taskAuthor={taskAuthor} taskAssigned={taskAssigned} />
+      <TaskCard taskName={taskName} id={id} created_at={created_at} />
     </div>
   );
 };
@@ -55,12 +60,11 @@ const DroppableArea = ({ id, title, items, onDrop }) => {
           {/* Show task cards if there are items, otherwise show a placeholder */}
           {items.length > 0 ? (
             items.map((item) => (
-              <DraggableItem
+              <DraggableItem //if you want to add details to tasks, edit this
                 key={item.id} // ✅ Add key prop
                 id={item.id}
-                taskName={item.name} 
-                taskAuthor={item.createdBy} 
-                taskAssigned={item.assignedTo} 
+                taskName={item.title} 
+                created_at={item.created_at}
               />
             ))
           ) : (
@@ -77,12 +81,21 @@ const DroppableArea = ({ id, title, items, onDrop }) => {
 
 // Main App Component
 const DragDropApp = () => {
+
+  const location = useLocation();
+  const { board } = location.state;
+
+  //the lanes that tasks are dropped into
   const [containers, setContainers] = useState({
     A: [],
     B: [],
     C: [],
     D: [],
   });
+
+  if (!board) {
+    return <p>No board data found.</p>;
+  }
 
   const handleDrop = (itemId, targetId) => {
     setContainers((prevContainers) => {
@@ -109,12 +122,12 @@ const DragDropApp = () => {
       // Add to new container
       if (movedItem) {
         newContainers[targetId].push(movedItem);
-        //console.log(`Moved item: ${movedItem.id} to ${targetId}`);
+        console.log(`Moved item: ${movedItem.id} to ${targetId}`);//this is where I will update the task with the backend
       } else {
         console.warn(`Item ${itemId} not found in any container.`);
       }
   
-      //console.log("Updated Containers:", newContainers);
+      console.log("Updated Containers:", newContainers);
       return newContainers;
     });
   };
@@ -123,9 +136,17 @@ const DragDropApp = () => {
 
   return (
     <>
-    <div>
-      <CreateTask setContainers={setContainers} />
+
+    <div className="grid-container">
+      <div className="grid-item">
+        <BoardCard board={board} />
+      </div>
+
+      <div className="grid-item">
+        <CreateTask setContainers={setContainers} board={board} />
+      </div>
     </div>
+
     
 
     <DndProvider backend={HTML5Backend}>

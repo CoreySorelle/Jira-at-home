@@ -2,51 +2,46 @@ import { useState } from "react";
 import axios from "axios";
 import "../App.css";
 
-function CreateTask({ setContainers }) {
+function CreateTask({ setContainers, board }) {
   const [loading, setLoading] = useState(false);
 
   async function handleClick(event) {
     event.preventDefault(); // Prevent form reload
 
     const name = document.getElementById("taskName").value;
-    const author = document.getElementById("taskAuthor").value;
-    const assignee = document.getElementById("taskAssigned").value;
-    const date = new Date().toISOString(); // Standardized date format
 
-    if (!name || !author || !assignee) {
+    if (!name) {
       alert("Please fill in all fields.");
       return;
     }
 
     // Create task object
     const newTask = {
-      id: crypto.randomUUID(), // Unique ID
       name,
-      date: date,
-      createdBy: author,
-      assignedTo: assignee,
+      board_id: board.id,
       column: "To Do",
     };
 
-    console.log("New Task Created:", newTask);
+    
 
     setLoading(true);
     try {
       // Send task to backend
-      await axios.post("http://localhost:3001/task/create-task", newTask);
+      const response = await axios.post("http://localhost:3001/task/create-task", newTask);
+
+      const createdTask = response.data.task;
+
+      console.log("New Task Created:", createdTask);
 
       // Update local state
       setContainers((prevContainers) => ({
         ...prevContainers,
-        A: [...prevContainers.A, newTask], // Add to "To Do" lane (A)
+        A: [...prevContainers.A, createdTask], // Add to "To Do" lane (A)
       }));
 
       // Clear form inputs
       document.getElementById("taskName").value = "";
-      document.getElementById("taskAuthor").value = "";
-      document.getElementById("taskAssigned").value = "";
 
-      alert("Task created successfully!");
     } catch (error) {
       console.error("Error creating task:", error);
       alert("Failed to create task. Please try again.");
@@ -57,20 +52,12 @@ function CreateTask({ setContainers }) {
 
   return (
     <form>
+      <h2>Create A New Task</h2>
       <label htmlFor="taskName" className="block font-semibold">
         Task Name:
       </label>
-      <input type="text" id="taskName" className="w-full p-2 border rounded mb-2" /><br/>
+      <input type="text" id="taskName"/><br/>
 
-      <label htmlFor="taskAuthor" className="block font-semibold">
-        Created By:
-      </label>
-      <input type="text" id="taskAuthor" className="w-full p-2 border rounded mb-2" /><br/>
-
-      <label htmlFor="taskAssigned" className="block font-semibold">
-        Assigned To:
-      </label>
-      <input type="text" id="taskAssigned" className="w-full p-2 border rounded mb-2" /><br/>
 
       <button
         onClick={handleClick}

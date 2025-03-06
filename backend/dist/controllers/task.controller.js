@@ -8,12 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateTaskColumn = exports.createTask = exports.sayHello = exports.getAllTasks = void 0;
-const task_model_1 = __importDefault(require("../models/task.model"));
+const pg_1 = require("pg");
+const SECRET_KEY = "0fb5f53f4d7ae5114979d94d01ddf11bf7e11d30dadf025732642995194fdf5fa0e62d5f726de0315e09c780319f98e512dc3c3a6c0ea8c847e7f1e76885bcd0";
+const pool = new pg_1.Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: process.env.PGSSLMODE === "disable" ? false : undefined, // Only set SSL if not disabled
+});
 // Get all tasks
 const getAllTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -37,18 +39,19 @@ exports.sayHello = sayHello;
 // Create a new task
 const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id, board_id, name, date, column } = req.body;
-        // Ensure date is converted to a Date object
-        const dueDate = new Date(date);
-        // Validate the date
-        if (isNaN(dueDate.getTime())) {
-            return res.status(400).json({ message: "Invalid date format" });
-        }
-        // Corrected Task object instantiation
-        var task = new task_model_1.default(id, board_id, name, dueDate, column);
-        console.log(task.toString());
+        const { board_id, name, column } = req.body;
         // Database logic here
-        res.status(201).json({ message: "Task created successfully", task });
+        const queryResult = yield pool.query(`INSERT INTO Tasks (board_id, title, status) 
+         VALUES ($1, $2, $3) 
+         RETURNING *`, [
+            board_id,
+            name,
+            column
+        ]);
+        res.status(201).json({
+            message: "Task created successfully",
+            task: queryResult.rows[0],
+        });
     }
     catch (error) {
         console.error("Error creating task:", error);
