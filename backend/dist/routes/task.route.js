@@ -9,5 +9,5 @@ const router = express_1.default.Router();
 router.get("/", task_controller_1.sayHello);
 router.get("/get-tasks", task_controller_1.getAllTasks);
 router.post("/create-task", task_controller_1.createTask);
-router.post("/update-task", task_controller_1.updateTaskColumn);
+router.patch("/update-task", task_controller_1.updateTaskColumn);
 exports.default = router;

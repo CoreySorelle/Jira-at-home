@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+
+import { FetchTasks } from "../utils/FetchTasks";
+import { MoveTask } from "../utils/MoveTask";
 
 import TaskCard from "../components/TaskCard";
 import CreateTask from "../components/CreateTask";
@@ -16,10 +19,10 @@ const ItemType = {
 
 
 // Draggable Item Component
-const DraggableItem = ({ id, text, taskName, created_at}) => {//if you want to add details to tasks, edit this
+const DraggableItem = ({ id, text, taskName, created_at, username}) => {//if you want to add details to tasks, edit this
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemType.ITEM,
-    item: { id, text, taskName, created_at }, //if you want to add details to tasks, edit this
+    item: { id, text, taskName, created_at, username }, //if you want to add details to tasks, edit this
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -30,7 +33,7 @@ const DraggableItem = ({ id, text, taskName, created_at}) => {//if you want to a
       ref={drag}
       style={{ opacity: isDragging ? 0.5 : 1 }}
     >
-      <TaskCard taskName={taskName} id={id} created_at={created_at} />
+      <TaskCard taskName={taskName} id={id} created_at={created_at} username={username} />{/*if you want to add details to tasks, edit this*/}
     </div>
   );
 };
@@ -48,7 +51,7 @@ const DroppableArea = ({ id, title, items, onDrop }) => {
     return (
       <div className="drop-area">
         {/* Lane Title */}
-        <h2 className="text-lg font-bold text-center mb-2">{title}</h2>
+        <h2>{title}</h2>
   
         {/* Droppable Area */}
         <div
@@ -65,6 +68,7 @@ const DroppableArea = ({ id, title, items, onDrop }) => {
                 id={item.id}
                 taskName={item.title} 
                 created_at={item.created_at}
+                username={item.username}
               />
             ))
           ) : (
@@ -93,9 +97,19 @@ const DragDropApp = () => {
     D: [],
   });
 
+  useEffect(() => {
+    if (board) {
+      FetchTasks(board.id).then((fetchedContainers) => {
+        setContainers(fetchedContainers);
+      });
+    }
+  }, [board]);
+
   if (!board) {
     return <p>No board data found.</p>;
   }
+
+  
 
   const handleDrop = (itemId, targetId) => {
     setContainers((prevContainers) => {
@@ -122,12 +136,14 @@ const DragDropApp = () => {
       // Add to new container
       if (movedItem) {
         newContainers[targetId].push(movedItem);
-        console.log(`Moved item: ${movedItem.id} to ${targetId}`);//this is where I will update the task with the backend
+        //console.log(`Moved item: ${movedItem.id} to ${targetId}`);//this is where I will update the task with the backend
+        MoveTask(movedItem.id, targetId)
+
       } else {
         console.warn(`Item ${itemId} not found in any container.`);
       }
   
-      console.log("Updated Containers:", newContainers);
+      //console.log("Updated Containers:", newContainers);
       return newContainers;
     });
   };

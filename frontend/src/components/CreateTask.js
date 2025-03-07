@@ -4,6 +4,15 @@ import "../App.css";
 
 function CreateTask({ setContainers, board }) {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const token = sessionStorage.getItem("token");
+      //console.log("Token:", token);
+
+      if (!token) {
+        setError("Unauthorized: No token found.");
+        return;
+      }
 
   async function handleClick(event) {
     event.preventDefault(); // Prevent form reload
@@ -27,8 +36,14 @@ function CreateTask({ setContainers, board }) {
     setLoading(true);
     try {
       // Send task to backend
-      const response = await axios.post("http://localhost:3001/task/create-task", newTask);
+      const response = await axios.post("http://localhost:3001/task/create-task", newTask, {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+            "Content-Type": "application/json", 
+          },
+      });
 
+      
       const createdTask = response.data.task;
 
       console.log("New Task Created:", createdTask);

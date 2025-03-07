@@ -15,6 +15,30 @@ const pool = new Pool({
   ssl: process.env.PGSSLMODE === "disable" ? false : undefined, // Only set SSL if not disabled
 });
 
+export const getUserName = async (req: Request, res: Response) => {
+  try {
+    
+    
+    const queryResult = await pool.query(
+      "SELECT fname, lname FROM Users WHERE email = $1",
+      [req.body.id]
+    );
+
+    if (!queryResult.rows || queryResult.rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const username = queryResult.rows[0].fname + " " + queryResult.rows[0].lname;
+
+    
+
+    console.log("user sent");
+    res.status(200).json(username);
+  } catch (error) {
+    res.status(401).json({ message: "Invalid or expired token" });
+  }
+};
+
 export const getUser = async (req: Request, res: Response) => {
   try {
     const token = req.headers.authorization?.split(" ")[1]; // Extract token from "Bearer <token>"

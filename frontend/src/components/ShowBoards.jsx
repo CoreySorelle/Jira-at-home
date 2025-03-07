@@ -26,14 +26,14 @@ const ShowBoards = () => {
           },
         });
 
-        console.log("API response:", response);
+        //console.log("API response:", response);
 
         if (!response.ok) {
           throw new Error("Failed to fetch boards");
         }
 
         const data = await response.json();
-        console.log("Boards data:", data);
+        //console.log("Boards data:", data);
 
         if (!data || data.length === 0) {
           setError("No boards found.");

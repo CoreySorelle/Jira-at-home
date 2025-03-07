@@ -15,7 +15,7 @@ const port = process.env.PORT || 3001;
 // Enable CORS
 app.use((0, cors_1.default)({
     origin: "http://localhost:3000", // Allow frontend
-    methods: "GET,POST,PUT,DELETE", // Allowed HTTP methods
+    methods: "GET,POST,PUT,DELETE,PATCH", // Allowed HTTP methods
     allowedHeaders: "Content-Type,Authorization", // Allowed headers
 }));
 // Middleware to parse JSON

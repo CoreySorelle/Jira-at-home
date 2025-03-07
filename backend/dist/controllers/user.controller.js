@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.sayHello = exports.createAccount = exports.getUser = void 0;
+exports.login = exports.sayHello = exports.createAccount = exports.getUser = exports.getUserName = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const pg_1 = require("pg");
@@ -24,6 +24,21 @@ const pool = new pg_1.Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: process.env.PGSSLMODE === "disable" ? false : undefined, // Only set SSL if not disabled
 });
+const getUserName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const queryResult = yield pool.query("SELECT fname, lname FROM Users WHERE email = $1", [req.body.id]);
+        if (!queryResult.rows || queryResult.rows.length === 0) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const username = queryResult.rows[0].fname + " " + queryResult.rows[0].lname;
+        console.log("user sent");
+        res.status(200).json(username);
+    }
+    catch (error) {
+        res.status(401).json({ message: "Invalid or expired token" });
+    }
+});
+exports.getUserName = getUserName;
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {

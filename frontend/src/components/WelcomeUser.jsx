@@ -23,14 +23,14 @@ const WelcomeUser = () => {
           },
         });
 
-        console.log("API response:", response);  // Log API response
+        //console.log("API response:", response);  // Log API response
 
         if (!response.ok) {
           throw new Error("Failed to fetch user");
         }
 
         const data = await response.json();
-        console.log("User data:", data);  // Log user data from the response
+        //console.log("User data:", data);  // Log user data from the response
 
         if (!data) {
           setError("User data not found in the response.");
