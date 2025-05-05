@@ -13,23 +13,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateTaskColumn = exports.createTask = exports.sayHello = exports.getAllTasks = void 0;
-const pg_1 = require("pg");
+const db_1 = require("../utils/db");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const SECRET_KEY = "0fb5f53f4d7ae5114979d94d01ddf11bf7e11d30dadf025732642995194fdf5fa0e62d5f726de0315e09c780319f98e512dc3c3a6c0ea8c847e7f1e76885bcd0";
-const pool = new pg_1.Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.PGSSLMODE === "disable" ? false : undefined, // Only set SSL if not disabled
-});
+const secretKey_1 = require("../utils/secretKey");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 // Get all tasks
 const getAllTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         //console.log("check 1");
         // Database logic 
-        const queryResult = yield pool.query("SELECT * FROM Tasks WHERE board_id = $1", [req.query.boardId]);
+        const queryResult = yield db_1.pool.query("SELECT * FROM Tasks WHERE board_id = $1", [req.query.boardId]);
         let tasks = queryResult.rows;
         for (let i = 0; i < queryResult.rows.length; i++) {
             try {
-                const queryUser = yield pool.query("SELECT fname, lname FROM Users WHERE id = $1", [tasks[i].created_by]);
+                const queryUser = yield db_1.pool.query("SELECT fname, lname FROM Users WHERE id = $1", [tasks[i].created_by]);
                 tasks[i].username = queryUser.rows[0].fname + " " + queryUser.rows[0].lname;
             }
             catch (error) {
@@ -64,11 +62,11 @@ const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         if (!token) {
             return res.status(401).json({ message: "Unauthorized, no token provided" });
         }
-        const decoded = jsonwebtoken_1.default.verify(token, SECRET_KEY);
-        const queryUser = yield pool.query(`SELECT fname, lname FROM Users WHERE id = $1`, [decoded.id]);
+        const decoded = jsonwebtoken_1.default.verify(token, secretKey_1.SECRET_KEY);
+        const queryUser = yield db_1.pool.query(`SELECT fname, lname FROM Users WHERE id = $1`, [decoded.id]);
         let username = queryUser.rows[0].fname + " " + queryUser.rows[0].lname;
         // Database logic here
-        const queryResult = yield pool.query(`INSERT INTO Tasks (board_id, title, status, created_by) 
+        const queryResult = yield db_1.pool.query(`INSERT INTO Tasks (board_id, title, status, created_by) 
          VALUES ($1, $2, $3, $4) 
          RETURNING *`, [
             board_id,
@@ -103,7 +101,7 @@ const updateTaskColumn = (req, res) => __awaiter(void 0, void 0, void 0, functio
         WHERE id = $2
         RETURNING *;
       `;
-            const result = yield pool.query(query, [target, taskId]);
+            const result = yield db_1.pool.query(query, [target, taskId]);
             if (result.rowCount === 0) {
                 return res.status(404).json({ message: "Task not found" });
             }

@@ -15,18 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = exports.sayHello = exports.createAccount = exports.getUser = exports.getUserName = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const pg_1 = require("pg");
+const db_1 = require("../utils/db");
 const user_model_1 = __importDefault(require("../models/user.model"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const SECRET_KEY = "0fb5f53f4d7ae5114979d94d01ddf11bf7e11d30dadf025732642995194fdf5fa0e62d5f726de0315e09c780319f98e512dc3c3a6c0ea8c847e7f1e76885bcd0";
-const pool = new pg_1.Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.PGSSLMODE === "disable" ? false : undefined, // Only set SSL if not disabled
-});
+const secretKey_1 = require("../utils/secretKey");
 const getUserName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const queryResult = yield pool.query("SELECT fname, lname FROM Users WHERE email = $1", [req.body.id]);
+        const queryResult = yield db_1.pool.query("SELECT fname, lname FROM Users WHERE email = $1", [req.body.id]);
         if (!queryResult.rows || queryResult.rows.length === 0) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -46,8 +40,8 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!token) {
             return res.status(401).json({ message: "Unauthorized, no token provided" });
         }
-        const decoded = jsonwebtoken_1.default.verify(token, SECRET_KEY);
-        const queryResult = yield pool.query("SELECT * FROM Users WHERE email = $1", [decoded.email]);
+        const decoded = jsonwebtoken_1.default.verify(token, secretKey_1.SECRET_KEY);
+        const queryResult = yield db_1.pool.query("SELECT * FROM Users WHERE email = $1", [decoded.email]);
         if (!queryResult.rows || queryResult.rows.length === 0) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -66,7 +60,7 @@ const createAccount = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const { fname, lname, email, password, dob, street, city, zip, state } = req.body;
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
         const newUser = new user_model_1.default(crypto.randomUUID(), fname, lname, email, hashedPassword, new Date(dob), street, city, zip, state);
-        const queryResult = yield pool.query(`INSERT INTO Users (fname, lname, email, password, dob, street, city, zip, state) 
+        const queryResult = yield db_1.pool.query(`INSERT INTO Users (fname, lname, email, password, dob, street, city, zip, state) 
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
        RETURNING *`, [
             newUser.fname,
@@ -104,7 +98,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             let decodedUserInfo = atob(userInfo);
             let email = decodedUserInfo.split(":")[0];
             let password = decodedUserInfo.split(":")[1];
-            let queryResult = yield pool.query("SELECT * FROM users WHERE email = $1", [email]);
+            let queryResult = yield db_1.pool.query("SELECT * FROM users WHERE email = $1", [email]);
             if (queryResult.rows.length > 0) {
                 let user = queryResult.rows[0];
                 bcrypt_1.default.compare(password, user.password.trim(), (err, result) => {
@@ -112,7 +106,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                         let token = jsonwebtoken_1.default.sign({
                             email: user.email,
                             id: user.id
-                        }, SECRET_KEY);
+                        }, secretKey_1.SECRET_KEY);
                         console.log("logged in");
                         res.status(200).send({
                             token: token,

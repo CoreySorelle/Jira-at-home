@@ -1,15 +1,11 @@
 import { Request, Response } from "express";
 import Task from "../models/task.model";
-import { Pool } from "pg";
-import jwt from "jsonwebtoken"
+import { pool } from "../utils/db";
+import jwt from "jsonwebtoken";
+import { SECRET_KEY } from "../utils/secretKey";
 
-const SECRET_KEY =
-  "0fb5f53f4d7ae5114979d94d01ddf11bf7e11d30dadf025732642995194fdf5fa0e62d5f726de0315e09c780319f98e512dc3c3a6c0ea8c847e7f1e76885bcd0";
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.PGSSLMODE === "disable" ? false : undefined, // Only set SSL if not disabled
-});
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Get all tasks
 export const getAllTasks = async (req: Request, res: Response) => {

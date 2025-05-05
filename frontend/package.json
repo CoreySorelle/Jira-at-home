@@ -37,6 +37,7 @@
     ]
   },
   "devDependencies": {
+    "@types/node": "^22.15.3",
     "react-router-dom": "^7.1.5"
   }
 }

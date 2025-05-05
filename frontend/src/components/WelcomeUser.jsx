@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { API_URL } from "../config";
 
 const WelcomeUser = () => {
   const [user, setUser] = useState(null);
@@ -15,7 +16,7 @@ const WelcomeUser = () => {
       }
 
       try {
-        const response = await fetch("http://localhost:3001/user/get-user", {
+        const response = await fetch(`${API_URL}/user/get-user`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

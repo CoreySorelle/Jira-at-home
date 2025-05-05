@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../config";
 
 const ShowBoards = () => {
   const [boards, setBoards] = useState([]);
@@ -18,7 +19,7 @@ const ShowBoards = () => {
       }
 
       try {
-        const response = await fetch("http://localhost:3001/board/boards-by-user", {
+        const response = await fetch(`${API_URL}/board/boards-by-user`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import "../App.css";
+import { API_URL } from "../config";
 
 function CreateTask({ setContainers, board }) {
   const [loading, setLoading] = useState(false);
@@ -36,7 +37,7 @@ function CreateTask({ setContainers, board }) {
     setLoading(true);
     try {
       // Send task to backend
-      const response = await axios.post("http://localhost:3001/task/create-task", newTask, {
+      const response = await axios.post(`${API_URL}/task/create-task`, newTask, {
           headers: {
             Authorization: `Bearer ${token}`, 
             "Content-Type": "application/json", 

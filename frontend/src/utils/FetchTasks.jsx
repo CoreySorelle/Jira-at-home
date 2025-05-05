@@ -1,8 +1,9 @@
 import axios from "axios";
+import { API_URL } from "../config";
 
 export async function FetchTasks(boardId) {
   try {
-    const response = await axios.get(`http://localhost:3001/task/get-tasks`, {
+    const response = await axios.get(`${API_URL}/task/get-tasks`, {
         params: { boardId: boardId}, 
       });
     

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import "../App.css";
+import { API_URL } from "../config";
 
 const CreateBoard = () => {
 
@@ -34,7 +35,7 @@ const CreateBoard = () => {
         try {
             // Send task to backend with Authorization header
             await axios.post(
-              "http://localhost:3001/board/",
+              `${API_URL}/board/`,
               newBoard,
               {
                 headers: {

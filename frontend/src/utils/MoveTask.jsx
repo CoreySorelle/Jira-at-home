@@ -1,4 +1,6 @@
 import axios from "axios";
+import { API_URL } from "../config";
+
 
 export async function MoveTask(taskId, target) {
     
@@ -17,7 +19,7 @@ export async function MoveTask(taskId, target) {
     console.log(taskId + " " + target);
   
     try {
-        const response = await axios.patch(`http://localhost:3001/task/update-task`, {
+        const response = await axios.patch(`${API_URL}/task/update-task`, {
             taskId: taskId,  // Send data in the body
             target: target   // Send data in the body
         });

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
+import { API_URL } from "../config";
 
 const SignUp = () => {
   const navigate = useNavigate(); // Move useNavigate inside the component
@@ -25,7 +26,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3001/user/create-account", {
+      const response = await fetch(`${API_URL}/user/create-account`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
