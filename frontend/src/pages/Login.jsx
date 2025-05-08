@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import axios from "axios";
+import { API_URL } from "../config";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ function Login() {
     let basicAuthHeader = btoa(`${email}:${password}`);
 
     try {
-      let response = await axios.post("http://localhost:3001/user/login", userData, {
+      let response = await axios.post(`${API_URL}/user/login`, userData, {
         headers: { Authorization: `Basic ${basicAuthHeader}` }
       });
 
