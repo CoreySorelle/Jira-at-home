@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { pool } from "../utils/db"; // Adjust the import path as necessary
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Board from "../models/board.model";
 import { SECRET_KEY } from "../utils/secretKey";
