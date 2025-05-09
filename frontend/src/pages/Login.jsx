@@ -29,15 +29,18 @@ function Login() {
   }
 
   return (
+    <>
     <div style={{ textAlign: "center" }}>
-      <h1>User Login Portal</h1>
+      
       <form onSubmit={handleLogin}>
+        <h1>User Login Portal</h1>
         <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
 		<br/>
         <button type="submit">Login</button>
       </form>
     </div>
+    </>
   );
 }
 

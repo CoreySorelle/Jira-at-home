@@ -8,6 +8,8 @@ import Contact from "./pages/Contact";
 import NoPage from "./pages/NoPage";
 import DragDropApp from "./pages/DragDropApp";
 import Login from "./pages/Login"
+import Register from "./pages/Register";
+import SignUp from "./components/SignUp";
 
 export default function App() {
   return (
@@ -19,6 +21,7 @@ export default function App() {
           <Route path="contact" element={<Contact />} />
           <Route path="board" element={<DragDropApp/>}></Route>
           <Route path="login" element={<Login/>}></Route>
+          <Route path="register" element={<SignUp/>}/>
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

@@ -46,6 +46,7 @@ const SignUp = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 p-4 border rounded-lg">
+      <h1>Register Here</h1>
       {Object.keys(formData).map((key) => (
         <div key={key} className="flex flex-col">
           <label htmlFor={key}>{key}</label>

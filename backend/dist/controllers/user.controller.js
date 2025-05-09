@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = exports.sayHello = exports.createAccount = exports.getUser = exports.getUserName = void 0;
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const db_1 = require("../utils/db");
 const user_model_1 = __importDefault(require("../models/user.model"));
@@ -58,7 +58,7 @@ exports.getUser = getUser;
 const createAccount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { fname, lname, email, password, dob, street, city, zip, state } = req.body;
-        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        const hashedPassword = yield bcryptjs_1.default.hash(password, 10);
         const newUser = new user_model_1.default(crypto.randomUUID(), fname, lname, email, hashedPassword, new Date(dob), street, city, zip, state);
         const queryResult = yield db_1.pool.query(`INSERT INTO Users (fname, lname, email, password, dob, street, city, zip, state) 
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
@@ -101,7 +101,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             let queryResult = yield db_1.pool.query("SELECT * FROM users WHERE email = $1", [email]);
             if (queryResult.rows.length > 0) {
                 let user = queryResult.rows[0];
-                bcrypt_1.default.compare(password, user.password.trim(), (err, result) => {
+                bcryptjs_1.default.compare(password, user.password.trim(), (err, result) => {
                     if (result) {
                         let token = jsonwebtoken_1.default.sign({
                             email: user.email,

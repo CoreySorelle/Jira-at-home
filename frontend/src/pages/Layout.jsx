@@ -24,17 +24,24 @@ const Layout = () => {
           <li>
             <Link to="/contact">Contact</Link>
           </li>
-          {!isLoggedIn ? (
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-          ) : (
-            <>
-              <li className="nav-logout-container">
-                <button onClick={handleLogout} className="nav-logout-btn">Logout</button>
-              </li>
-            </>
-          )}
+          <div className="nav-right">
+            {!isLoggedIn ? (
+              <>
+                <li>
+                  <Link to="/register">Register</Link>
+                </li>
+                <li>
+                  <Link to="/login">Login</Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="nav-logout-container">
+                  <button onClick={handleLogout} className="nav-logout-btn">Logout</button>
+                </li>
+              </>
+            )}
+          </div>
         </ul>
       </nav>
       <Outlet />
