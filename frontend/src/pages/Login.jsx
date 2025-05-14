@@ -34,6 +34,7 @@ function Login() {
       
       <form onSubmit={handleLogin}>
         <h1>User Login Portal</h1>
+	      <p>Note: if the site hasn't been used for some time, the database shuts down and has to startup before logging you in. It could take up to a minute.</p>
         <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
 		<br/>
